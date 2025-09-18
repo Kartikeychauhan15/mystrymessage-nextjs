@@ -1,0 +1,9 @@
+We use TS and Nextjs to make our project which is called true Feedback
+
+We can create multiple files in same go with the help of termonal and use of 
+
+touch index.ts help.ts route.ts like this and create multiple files like this in that folder
+
+In video 2 --------------
+
+We are learning about zod in this video.
