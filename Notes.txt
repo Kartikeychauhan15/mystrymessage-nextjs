@@ -7,3 +7,7 @@ touch index.ts help.ts route.ts like this and create multiple files like this in
 In video 2 --------------
 
 We are learning about zod in this video.
+
+
+use of resend email for signup process
+https://resend.com
