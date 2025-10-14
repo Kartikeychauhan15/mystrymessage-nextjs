@@ -10,6 +10,9 @@ export async function sendVerificationEmail(
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
+    //  console.log("Sending email to:", email);
+    // console.log("Using Resend API key:", process.env.RESEND_API_KEY ? "✅ Loaded" : "❌ Missing");
+
     await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: email,
@@ -28,3 +31,5 @@ export async function sendVerificationEmail(
     };
   }
 }
+
+11

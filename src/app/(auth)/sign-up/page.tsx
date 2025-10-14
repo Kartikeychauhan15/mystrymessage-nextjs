@@ -1,48 +1,48 @@
-'use client';
+"use client";
 
-import { ApiResponse } from '@/types/ApiResponse';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { ApiResponse } from "@/types/ApiResponse";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 // import useDebounce from 'usehooks-ts';
 // import useDebounce from 'usehooks-ts/dist/esm/useDebounce/useDebounce';
 
-import {useDebounceCallback} from "usehooks-ts";
-import * as z from 'zod';
+import { useDebounceCallback } from "usehooks-ts";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
- 
-import { toast } from 'sonner';
-import axios, { AxiosError } from 'axios';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { signUpSchema } from '@/schemas/signUpSchema';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { toast } from "sonner";
+import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
 export default function SignUpForm() {
-  const [username, setUsername] = useState('');
-  const [usernameMessage, setUsernameMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const debouncedUsername = useDebounce(username, 300);
+  //   const debouncedUsername = useDebounce(username, 300);
 
-const debounced = useDebounceCallback(setUsername, 300);
+  const debounced = useDebounceCallback(setUsername, 300);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     },
   });
 
@@ -50,7 +50,7 @@ const debounced = useDebounceCallback(setUsername, 300);
     const checkUsernameUnique = async () => {
       if (username) {
         setIsCheckingUsername(true);
-        setUsernameMessage('');
+        setUsernameMessage("");
         try {
           const response = await axios.get<ApiResponse>(
             `/api/check-username-unique?username=${username}`
@@ -59,7 +59,7 @@ const debounced = useDebounceCallback(setUsername, 300);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
-            axiosError.response?.data.message ?? 'Error checking username'
+            axiosError.response?.data.message ?? "Error checking username"
           );
         } finally {
           setIsCheckingUsername(false);
@@ -72,15 +72,17 @@ const debounced = useDebounceCallback(setUsername, 300);
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post<ApiResponse>('/api/sign-up', data);
+      const response = await axios.post<ApiResponse>("/api/sign-up", data);
 
-      toast.success(response.data.message || 'Sign up successful!');
+      toast.success(response.data.message || "Sign up successful!");
       router.replace(`/verify/${username}`);
     } catch (error) {
+      console.error("Sign-up error:", JSON.stringify(error, null, 2)); // log everything
+
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage =
         axiosError.response?.data.message ||
-        'There was a problem with your sign-up. Please try again.';
+        "There was a problem with your sign-up. Please try again.";
 
       toast.error(errorMessage);
     } finally {
@@ -116,9 +118,9 @@ const debounced = useDebounceCallback(setUsername, 300);
                   {!isCheckingUsername && usernameMessage && (
                     <p
                       className={`text-sm ${
-                        usernameMessage === 'Username is unique'
-                          ? 'text-green-500'
-                          : 'text-red-500'
+                        usernameMessage === "Username is unique"
+                          ? "text-green-500"
+                          : "text-red-500"
                       }`}
                     >
                       {usernameMessage}
@@ -161,14 +163,14 @@ const debounced = useDebounceCallback(setUsername, 300);
                   Please wait
                 </>
               ) : (
-                'Sign Up'
+                "Sign Up"
               )}
             </Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already a member?{' '}
+            Already a member?{" "}
             <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
               Sign in
             </Link>
