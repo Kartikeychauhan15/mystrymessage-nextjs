@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import AuthProvider from '../context/AuthProvidex';
 import { Toaster } from "@/components/ui/sonner"
+import AuthProvider from '@/context/AuthProvidex';
 const inter = Inter({ subsets: ['latin'] });
-
-
+import Navbar from '@/components/Navbar';
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'True Feedback',
